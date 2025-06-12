@@ -7,9 +7,12 @@
 /**
  * 
  */
+
+class AMyCharacter;
+
 class GPPATTERNS_API ICommand
 {
 public:
-	ICommand();
-	~ICommand();
+	virtual ~ICommand() = default;
+	virtual void Execute(AMyCharacter* Character) = 0;
 };
