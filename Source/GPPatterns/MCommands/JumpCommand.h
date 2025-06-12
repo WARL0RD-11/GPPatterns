@@ -2,17 +2,14 @@
 
 #pragma once
 
+#include "ICommand.h"
 #include "CoreMinimal.h"
 
 /**
  * 
  */
-
-class AMyCharacter;
-
-class GPPATTERNS_API ICommand
+class JumpCommand : public ICommand
 {
 public:
-	virtual ~ICommand() = default;
-	virtual void Execute(AMyCharacter* Character) = 0;
+    virtual void Execute(class AMyCharacter* Character) override;
 };
