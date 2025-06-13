@@ -30,7 +30,7 @@ void AMyPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	UEnhancedInputComponent* EIC = CastChecked<UEnhancedInputComponent>(InputComponent);
+	EIC = CastChecked<UEnhancedInputComponent>(InputComponent);
 
 	if(EIC)
 	{

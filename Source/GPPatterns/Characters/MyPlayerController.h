@@ -41,6 +41,9 @@ public:
 	TObjectPtr<class UInputMappingContext> PlayerMappingContext;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<class UEnhancedInputComponent> EIC;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> JumpAction;
 
 private:
