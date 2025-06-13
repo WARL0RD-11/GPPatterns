@@ -35,13 +35,16 @@ protected:
 	
 
 public:
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	class UInputMappingContext* PlayerMappingContext;
+	class AMyCharacter* Character;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputAction* JumpAction;
+	TObjectPtr<class UInputMappingContext> PlayerMappingContext;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> JumpAction;
 
 private:
+
 	TMap<EInputAction, TSharedPtr<ICommand>> CommandMap;
 
 	void OnJumpAction(const FInputActionValue& ActionValue);

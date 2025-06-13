@@ -13,13 +13,19 @@ class GPPATTERNS_API AMyCharacter : public ACharacter
 
 public:
 	AMyCharacter();
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
 	virtual void BeginPlay() override;
 
-public:	
-	virtual void Tick(float DeltaTime) override;
+private:	
+	
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<class USpringArmComponent> SpringArm;
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<class UCameraComponent> Camera;
 
 };
