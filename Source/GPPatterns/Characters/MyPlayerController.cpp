@@ -74,7 +74,7 @@ void AMyPlayerController::RebindKey(UInputAction* Action, FKey NewKey)
 
 	TArray<FEnhancedActionKeyMapping> Mappings = PlayerMappingContext->GetMappings();
 
-	for (int i = 1; i <= Mappings.Num() - 1; i++)
+	for (int i = 0; i < Mappings.Num() - 1; i++)
 	{
 		if (Mappings[i].Action == Action)
 		{
@@ -87,6 +87,7 @@ void AMyPlayerController::RebindKey(UInputAction* Action, FKey NewKey)
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>
 		(GetLocalPlayer()))
 	{
+		Subsystem->RemoveMappingContext(PlayerMappingContext);
 		Subsystem->AddMappingContext(PlayerMappingContext, 0);
 	}
 }
