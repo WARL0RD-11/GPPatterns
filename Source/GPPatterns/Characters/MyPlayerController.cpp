@@ -67,3 +67,26 @@ void AMyPlayerController::OnMoveRightAction(const FInputActionValue& ActionValue
 		CommandMap[EInputAction::MoveRight]->Execute(Character, ActionValue.Get<float>());
 	}
 }
+
+void AMyPlayerController::RebindKey(UInputAction* Action, FKey NewKey)
+{
+	if (!PlayerMappingContext || !Action) return;
+
+	TArray<FEnhancedActionKeyMapping> Mappings = PlayerMappingContext->GetMappings();
+
+	for (int i = 1; i <= Mappings.Num() - 1; i++)
+	{
+		if (Mappings[i].Action == Action)
+		{
+			PlayerMappingContext->UnmapKey(Action, Mappings[i].Key);
+		}
+	}
+
+	PlayerMappingContext->MapKey(Action, NewKey);
+
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>
+		(GetLocalPlayer()))
+	{
+		Subsystem->AddMappingContext(PlayerMappingContext, 0);
+	}
+}

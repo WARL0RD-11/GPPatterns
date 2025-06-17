@@ -54,6 +54,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> MoveRightAction;
 
+	UFUNCTION(BlueprintCallable)
+	void RebindKey(UInputAction* Action, FKey NewKey);
+
+
 private:
 
 	TMap<EInputAction, TSharedPtr<ICommand>> CommandMap;
