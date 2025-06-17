@@ -21,6 +21,8 @@ enum class EInputAction : uint8
 {
 	None,
 	Jump,
+	MoveForward,
+	MoveRight,
 };
 
 
@@ -46,9 +48,17 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> JumpAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> MoveForwardAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> MoveRightAction;
+
 private:
 
 	TMap<EInputAction, TSharedPtr<ICommand>> CommandMap;
 
 	void OnJumpAction(const FInputActionValue& ActionValue);
+	void OnMoveForwardAction(const FInputActionValue& ActionValue);
+	void OnMoveRightAction(const FInputActionValue& ActionValue);
 };

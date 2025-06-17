@@ -14,5 +14,6 @@ class ICommand
 {
 public:
 	virtual ~ICommand() = default;
-	virtual void Execute(AMyCharacter* Character) = 0;
+	virtual void Execute(AMyCharacter* Character) {}
+	virtual void Execute(AMyCharacter* Character, float Value) {}
 };
