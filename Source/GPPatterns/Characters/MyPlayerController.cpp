@@ -39,8 +39,8 @@ void AMyPlayerController::SetupInputComponent()
 	if(EIC)
 	{
 		EIC->BindAction(JumpAction, ETriggerEvent::Started, this, &ThisClass::OnJumpAction);
-		EIC->BindAction(MoveForwardAction, ETriggerEvent::Started, this, &ThisClass::OnMoveForwardAction);
-		EIC->BindAction(MoveRightAction, ETriggerEvent::Started, this, &ThisClass::OnMoveRightAction);
+		EIC->BindAction(MoveForwardAction, ETriggerEvent::Triggered, this, &ThisClass::OnMoveForwardAction);
+		EIC->BindAction(MoveRightAction, ETriggerEvent::Triggered, this, &ThisClass::OnMoveRightAction);
 	}
 }
 
