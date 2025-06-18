@@ -69,12 +69,17 @@ void AMyPlayerController::OnMoveRightAction(const FInputActionValue& ActionValue
 }
 
 void AMyPlayerController::RebindKey(UInputAction* Action, FKey NewKey)
-{
+{	
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>
+		(GetLocalPlayer());
+
+	if (!Subsystem) return;
+
 	if (!PlayerMappingContext || !Action) return;
 
 	TArray<FEnhancedActionKeyMapping> Mappings = PlayerMappingContext->GetMappings();
 
-	for (int i = 0; i < Mappings.Num() - 1; i++)
+	for (int i = Mappings.Num() - 1 ; i > 0; --i)
 	{
 		if (Mappings[i].Action == Action)
 		{
@@ -82,12 +87,9 @@ void AMyPlayerController::RebindKey(UInputAction* Action, FKey NewKey)
 		}
 	}
 
+	Subsystem->RemoveMappingContext(PlayerMappingContext);
+
 	PlayerMappingContext->MapKey(Action, NewKey);
 
-	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>
-		(GetLocalPlayer()))
-	{
-		Subsystem->RemoveMappingContext(PlayerMappingContext);
-		Subsystem->AddMappingContext(PlayerMappingContext, 0);
-	}
+	Subsystem->AddMappingContext(PlayerMappingContext, 0);
 }
