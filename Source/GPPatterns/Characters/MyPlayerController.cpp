@@ -19,6 +19,14 @@ void AMyPlayerController::BeginPlay()
 	Super::BeginPlay();
 	Character = Cast<AMyCharacter>(GetPawn());
 
+	//DEFAULT MAPPINGS
+	DefaultKeyMap.Add(JumpAction, EKeys::SpaceBar);
+	DefaultKeyMap.Add(MoveForwardAction, EKeys::W);
+	DefaultKeyMap.Add(MoveBackwardAction, EKeys::S);
+	DefaultKeyMap.Add(MoveRightAction, EKeys::D);
+	DefaultKeyMap.Add(MoveLeftAction, EKeys::A);
+
+	//Dynamic Mappings
 	CommandMap.Add(EInputAction::Jump, MakeShareable(new JumpCommand()));
 	CommandMap.Add(EInputAction::MoveForward, MakeShareable(new MoveForwardCommand()));
 	CommandMap.Add(EInputAction::MoveBackward, MakeShareable(new MoveBackwardCommand()));
@@ -101,7 +109,7 @@ void AMyPlayerController::RebindKey(UInputAction* Action, FKey NewKey)
 
 	TArray<FEnhancedActionKeyMapping> Mappings = PlayerMappingContext->GetMappings();
 
-	for (int i = Mappings.Num() - 1 ; i > 0; --i)
+	for (int i = Mappings.Num() - 1 ; i >= 0; --i)
 	{
 		if (Mappings[i].Action == Action)
 		{
@@ -114,4 +122,29 @@ void AMyPlayerController::RebindKey(UInputAction* Action, FKey NewKey)
 	PlayerMappingContext->MapKey(Action, NewKey);
 
 	Subsystem->AddMappingContext(PlayerMappingContext, 0);
+}
+
+void AMyPlayerController::ResetToDefaultKeys()
+{
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>
+		(GetLocalPlayer());
+
+	if (!Subsystem) return;
+
+	TArray<FEnhancedActionKeyMapping> Mappings = PlayerMappingContext->GetMappings();
+
+	for (int i = Mappings.Num() - 1; i >= 0; --i)
+	{
+		PlayerMappingContext->UnmapKey(Mappings[i].Action, Mappings[i].Key);
+	}
+
+	for (const TPair<UInputAction*, FKey>& Pair : DefaultKeyMap)
+	{
+		PlayerMappingContext->MapKey(Pair.Key, Pair.Value);
+	}
+
+	Subsystem->RemoveMappingContext(PlayerMappingContext);
+	Subsystem->AddMappingContext(PlayerMappingContext, 0);
+
+	UE_LOG(LogTemp, Warning, TEXT("Reset all bindings to default."));
 }

@@ -65,10 +65,16 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void RebindKey(UInputAction* Action, FKey NewKey);
 
+	UFUNCTION(BlueprintCallable)
+	void ResetToDefaultKeys();
+
 
 private:
 
 	TMap<EInputAction, TSharedPtr<ICommand>> CommandMap;
+
+	UPROPERTY()
+	TMap<UInputAction*, FKey> DefaultKeyMap;
 
 	void OnJumpAction(const FInputActionValue& ActionValue);
 	void OnMoveForwardAction(const FInputActionValue& ActionValue);
