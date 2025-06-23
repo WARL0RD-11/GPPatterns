@@ -22,7 +22,9 @@ enum class EInputAction : uint8
 	None,
 	Jump,
 	MoveForward,
+	MoveBackward,
 	MoveRight,
+	MoveLeft,
 };
 
 
@@ -52,7 +54,13 @@ public:
 	TObjectPtr<UInputAction> MoveForwardAction;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> MoveBackwardAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> MoveRightAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UInputAction> MoveLeftAction;
 
 	UFUNCTION(BlueprintCallable)
 	void RebindKey(UInputAction* Action, FKey NewKey);
@@ -64,5 +72,7 @@ private:
 
 	void OnJumpAction(const FInputActionValue& ActionValue);
 	void OnMoveForwardAction(const FInputActionValue& ActionValue);
+	void OnMoveBackwardAction(const FInputActionValue& ActionValue);
 	void OnMoveRightAction(const FInputActionValue& ActionValue);
+	void OnMoveLeftAction(const FInputActionValue& ActionValue);
 };

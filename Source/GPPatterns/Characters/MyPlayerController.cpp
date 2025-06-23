@@ -10,7 +10,9 @@
 
 #include "GPPatterns/MCommands/JumpCommand.h"
 #include "GPPatterns/MCommands/MoveForwardCommand.h"
+#include "GPPatterns/MCommands/MoveBackwardCommand.h"
 #include "GPPatterns/MCommands/MoveRightCommand.h"
+#include "GPPatterns/MCommands/MoveLeftCommand.h"
 
 void AMyPlayerController::BeginPlay()
 {
@@ -19,7 +21,9 @@ void AMyPlayerController::BeginPlay()
 
 	CommandMap.Add(EInputAction::Jump, MakeShareable(new JumpCommand()));
 	CommandMap.Add(EInputAction::MoveForward, MakeShareable(new MoveForwardCommand()));
+	CommandMap.Add(EInputAction::MoveBackward, MakeShareable(new MoveBackwardCommand()));
 	CommandMap.Add(EInputAction::MoveRight, MakeShareable(new MoveRightCommand()));
+	CommandMap.Add(EInputAction::MoveLeft, MakeShareable(new MoveLeftCommand()));
 
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>
 		(GetLocalPlayer());
@@ -40,7 +44,9 @@ void AMyPlayerController::SetupInputComponent()
 	{
 		EIC->BindAction(JumpAction, ETriggerEvent::Started, this, &ThisClass::OnJumpAction);
 		EIC->BindAction(MoveForwardAction, ETriggerEvent::Triggered, this, &ThisClass::OnMoveForwardAction);
+		EIC->BindAction(MoveBackwardAction, ETriggerEvent::Triggered, this, &ThisClass::OnMoveBackwardAction);
 		EIC->BindAction(MoveRightAction, ETriggerEvent::Triggered, this, &ThisClass::OnMoveRightAction);
+		EIC->BindAction(MoveLeftAction, ETriggerEvent::Triggered, this, &ThisClass::OnMoveLeftAction);
 	}
 }
 
@@ -60,11 +66,27 @@ void AMyPlayerController::OnMoveForwardAction(const FInputActionValue& ActionVal
 	}
 }
 
+void AMyPlayerController::OnMoveBackwardAction(const FInputActionValue& ActionValue)
+{
+	if (Character)
+	{
+		CommandMap[EInputAction::MoveBackward]->Execute(Character, ActionValue.Get<float>());
+	}
+}
+
 void AMyPlayerController::OnMoveRightAction(const FInputActionValue& ActionValue)
 {
 	if (Character)
 	{
 		CommandMap[EInputAction::MoveRight]->Execute(Character, ActionValue.Get<float>());
+	}
+}
+
+void AMyPlayerController::OnMoveLeftAction(const FInputActionValue& ActionValue)
+{
+	if (Character)
+	{
+		CommandMap[EInputAction::MoveLeft]->Execute(Character, ActionValue.Get<float>());
 	}
 }
 
