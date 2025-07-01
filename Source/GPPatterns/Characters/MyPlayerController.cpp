@@ -148,3 +148,19 @@ void AMyPlayerController::ResetToDefaultKeys()
 
 	UE_LOG(LogTemp, Warning, TEXT("Reset all bindings to default."));
 }
+
+FKey AMyPlayerController::GetCurrentKeyForAction(UInputAction* Action) const
+{
+	if (!PlayerMappingContext || !Action) return FKey();
+
+	const TArray<FEnhancedActionKeyMapping> Mappings = PlayerMappingContext->GetMappings();
+
+	for (const FEnhancedActionKeyMapping& Mapping : Mappings)
+	{
+		if (Mapping.Action == Action)
+		{
+			return Mapping.Key;
+		}
+	}
+	return FKey();
+}

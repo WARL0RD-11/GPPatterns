@@ -68,6 +68,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ResetToDefaultKeys();
 
+	UFUNCTION(BlueprintCallable)
+	FKey GetCurrentKeyForAction(UInputAction* Action) const;
 
 private:
 
